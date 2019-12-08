@@ -5,19 +5,23 @@ import fr.toboutal.loanProject.dtos.LoanSimulationViewDto;
 import fr.toboutal.loanProject.entities.AmortizationTable;
 import fr.toboutal.loanProject.entities.LoanSimulation;
 import fr.toboutal.loanProject.repositories.LoanSimulationRepo;
+import fr.toboutal.loanProject.utilities.AmortizationGenerator;
+import fr.toboutal.loanProject.utilities.AmortizationTableGeneratorTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import sun.jvm.hotspot.debugger.Page;
 
-import java.awt.print.Pageable;
+
 
 @Service
 public class LoanSimulationServiceImpl implements LoanSimulationService {
 
     private LoanSimulationRepo loanSimulationRepo;
-    private AmortizationTable amortizationTable;
+    private AmortizationTableGeneratorTemplate amortizationTableGenerator;
 
     public LoanSimulationServiceImpl(LoanSimulationRepo loanSimulationRepo) {
         this.loanSimulationRepo = loanSimulationRepo;
+        this.amortizationTableGenerator = new AmortizationGenerator();
     }
 
     @Override
@@ -28,22 +32,23 @@ public class LoanSimulationServiceImpl implements LoanSimulationService {
 
     @Override
     public LoanSimulationViewDto getOne(Long id) {
-        return loanSimulationRepo.get;
+        return loanSimulationRepo.getById(id);
     }
 
     @Override
     public Page<LoanSimulationViewDto> getAll(Pageable pageable) {
-        return null;
+        return loanSimulationRepo.getAllProjectedBy(pageable);
     }
 
     @Override
     public void update(Long id, LoanSimulationDto dto) {
-
+        LoanSimulation loanSimulation = loanSimulationRepo.findById(id).get();
+        populate(dto, loanSimulation);
     }
 
     @Override
     public void delete(Long id) {
-
+        loanSimulationRepo.deleteById(id);
     }
 
     private void populate(LoanSimulationDto dto, LoanSimulation loanSimulation) {
@@ -53,5 +58,6 @@ public class LoanSimulationServiceImpl implements LoanSimulationService {
         loanSimulation.setInsuranceRate(dto.getInsuranceRate());
         loanSimulation.setDuration(dto.getDuration());
         loanSimulation.setStartDate(dto.getStartDate());
+        loanSimulation.setAmortizationTable((AmortizationTable) amortizationTableGenerator.generateAmortizationTable(amortizationTableGenerator.generateMonthlies(dto)));
     }
 }

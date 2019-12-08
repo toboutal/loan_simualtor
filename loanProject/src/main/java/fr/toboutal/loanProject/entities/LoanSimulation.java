@@ -30,6 +30,9 @@ public class LoanSimulation {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
+    private AmortizationTable amortizationTable;
+
     public Long getId() {
         return id;
     }
@@ -80,5 +83,13 @@ public class LoanSimulation {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public AmortizationTable getAmortizationTable() {
+        return amortizationTable;
+    }
+
+    public void setAmortizationTable(AmortizationTable amortizationTable) {
+        this.amortizationTable = amortizationTable;
     }
 }

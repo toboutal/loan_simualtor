@@ -2,9 +2,9 @@ package fr.toboutal.loanProject.services;
 
 import fr.toboutal.loanProject.dtos.LoanSimulationDto;
 import fr.toboutal.loanProject.dtos.LoanSimulationViewDto;
-import sun.jvm.hotspot.debugger.Page;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+;
 
 public interface LoanSimulationService {
 

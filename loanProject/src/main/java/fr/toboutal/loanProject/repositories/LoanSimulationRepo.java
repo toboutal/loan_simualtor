@@ -2,11 +2,12 @@ package fr.toboutal.loanProject.repositories;
 
 import fr.toboutal.loanProject.dtos.LoanSimulationViewDto;
 import fr.toboutal.loanProject.entities.LoanSimulation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import sun.jvm.hotspot.debugger.Page;
+import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
-
+@Repository
 public interface LoanSimulationRepo extends JpaRepository<LoanSimulation, Long> {
 
     LoanSimulationViewDto getById(Long id);
